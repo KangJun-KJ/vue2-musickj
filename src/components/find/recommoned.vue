@@ -109,16 +109,10 @@
 			}
 		},
 		created() {
-			this._getRecommend()
+
 		},
 		methods: {
-			_getRecommend() {
-				getRecommend("/api/playlist/detail?id=715594063").then(function(json) {
-					console.log(json);
-				}, function(error) {
-					console.error('出错了', error);
-				});
-			}
+			
 		},
 
 	}

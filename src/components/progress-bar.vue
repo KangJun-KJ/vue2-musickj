@@ -2,7 +2,7 @@
 	<div class="progress-bar" >
 		<div class="bar-inner"ref="progressBar"  @click="progressClick">
 			<div class="progress" ref="progress" ></div>
-			<div class="progress-btn-wrapper" ref="progressBtn" @mousedown.prevent="progressTouchStart" @mousemove.prevent="progressTouchMove"　@mouseout="progressTouchOut" @mouseup="progressTouchEnd">
+			<div class="progress-btn-wrapper" ref="progressBtn" @mousedown.pre="progressTouchStart" @mousemove.pre="progressTouchMove"　v-on:mouseup="progressTouchEnd" >
 				<div class="progress-btn"></div>
 			</div>
 		</div>
@@ -26,6 +26,9 @@
 		},
 		methods: {
 			progressTouchStart(e) {
+				if(e.button!==0){
+					return ;
+				}
 				if(this.currentIndex==-1){
 					return 
 				}
@@ -34,6 +37,10 @@
 				this.touch.left = this.$refs.progress.clientWidth
 			},
 			progressTouchMove(e) {
+				if(e.button!==0){
+					return ;
+				}
+				console.log(111)
 				if(!this.touch.initiated) {
 					return
 				}
@@ -47,10 +54,17 @@
 				this.touch.initiated = false
 				this._triggerPercent()
 			},
-			progressTouchOut(){
-				this.touch.initiated = false
+			progressTouchOut(e){
+				console.log(e.button)
+				if(e.button!==0){
+					return ;
+				}
+					this.touch.initiated = false
 			},
 			progressClick(e) {
+				if(e.button!==0){
+					return ;
+				}
 				if(this.currentIndex==-1){
 					return 
 				}
@@ -80,7 +94,7 @@
 			_offset(offsetWidth) {
 				this.$refs.progress.style.width = `${offsetWidth}px`
 				//      this.$refs.progressBtn.style[transform] = `translate3d(${offsetWidth}px,0,0)`
-				this.$refs.progressBtn.style.left=`${offsetWidth-8}px`
+				this.$refs.progressBtn.style.left=`${offsetWidth}px`
 				
 			}
 		},

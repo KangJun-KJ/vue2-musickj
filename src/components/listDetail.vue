@@ -114,8 +114,8 @@
 				this.clearList();
 				this.songList=[];
 				var that = this;
-				getRecommend("/api/playlist/detail?id=" + id).then(function(json) {
-					var data = json.result;
+				getRecommend("/playlist/detail?id=" + id).then(function(json) {
+					var data = json.playlist;
 					that.headerInfo.imgUrl = data.coverImgUrl
 					that.headerInfo.title = data.name
 					that.headerInfo.autor = data.creator.nickname
@@ -135,10 +135,10 @@
 						that.songList.push({
 							name: songListInfo[i].name,
 							id: songListInfo[i].id,
-							singer: songListInfo[i].artists[0].name,
-							album: songListInfo[i].album.name,
-							time: getMinute(songListInfo[i].duration),
-							songImgUrl:songListInfo[i].album.blurPicUrl,
+							singer: songListInfo[i].ar[0].name,
+							album: songListInfo[i].al.name,
+							time: getMinute(songListInfo[i].dt),
+							songImgUrl:songListInfo[i].al.picUrl,
 							isShow: true
 						})
 					}

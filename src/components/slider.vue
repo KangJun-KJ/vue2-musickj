@@ -22,7 +22,8 @@
 </template>
 
 <script>
-	const dingshiqi="";
+	import { getRecommend } from './../api/recommend.js'
+	const dingshiqi = "";
 	export default {
 		name: 'slider',
 		props: {
@@ -31,24 +32,12 @@
 					return {
 						height: 220,
 						width: 700,
-						"margin":'auto'
+						"margin": 'auto'
 					}
 				}
 			},
-			image: {
-				default: function() {
-					return [
-						 require('./../assets/img/1.jpg'),
-						 require('./../assets/img/2.jpg'),
-						 require('./../assets/img/3.jpg'),
-						 require('./../assets/img/4.jpg'),
-						 require('./../assets/img/5.jpg'),
-						 require('./../assets/img/6.jpg'),
-					]
-				}
-			},
 			interval: {
-				type:Number,
+				type: Number,
 				default: 5000
 			},
 			imgStyle: {
@@ -67,6 +56,34 @@
 				}
 			}
 		},
+		data() {
+			return {
+				image: {
+					default: function() {
+						return [{}]
+					}
+				},
+				move: ['left', 'center', 'right']
+			}
+		},
+		beforeCreate: function() {
+			var that = this;
+			getRecommend("/banner").then(function(json) {
+				that.image = [];
+				for(var i = 0; i < json.banners.length; i++) {
+					that.image.push({
+						src: json.banners[i].pic,
+						tagName: json.banners[i].typeTitle
+					});
+				}
+				for(let i = 3; i < that.image.length; i++) {
+					that.move[i] = 'wait';
+				}
+				that.startRoll();
+			}, function(error) {
+				console.error('出错了', error);
+			});
+		},
 		mounted: function() {
 			const width = parseInt(this.styleObject.width);
 			const height = parseInt(this.styleObject.height);
@@ -74,54 +91,45 @@
 			this.imgStyle.height = .9 * height + 'px';
 			this.styleObject.width += "px"
 			this.styleObject.height += "px"
-
-			for(let i = 3; i < this.image.length; i++) {
-				this.move[i] = 'wait';
-			}
-			this.startRoll();
-		},
-		data() {
-			return {
-				move: ['left', 'center', 'right']
-			}
 		},
 		methods: {
-			startRoll:function(){
-				if(this.autoRoll){
-				if(this.direction=="left"){
-					this.dingshiqi=setInterval(this.prePic, this.interval)
-				}else{
-					this.dingshiqi=setInterval(this.nextPic, this.interval)
-				}}
+			startRoll: function() {
+				if(this.autoRoll) {
+					if(this.direction == "left") {
+						this.dingshiqi = setInterval(this.prePic, this.interval)
+					} else {
+						this.dingshiqi = setInterval(this.nextPic, this.interval)
+					}
+				}
 			},
 			nextPic: function() {
 				clearInterval(this.dingshiqi);
-				let temp=this.move.pop();
+				let temp = this.move.pop();
 				this.move.unshift(temp);
 				this.startRoll();
 			},
 			prePic: function() {
 				clearInterval(this.dingshiqi);
-				let temp=this.move.shift();
+				let temp = this.move.shift();
 				this.move.push(temp);
 				this.startRoll();
 			},
 			target: function(pos) {
 				clearInterval(this.dingshiqi);
-				const num=this.image.length;
-				for(let i=0;i<num;i++){
-					this.move[i]='wait';
+				const num = this.image.length;
+				for(let i = 0; i < num; i++) {
+					this.move[i] = 'wait';
 				}
-				this.move[pos]='center';
-				this.move[pos+1<num?pos+1:0]='right';
-				this.move[pos-1>=0?pos-1:num-1]='left';
+				this.move[pos] = 'center';
+				this.move[pos + 1 < num ? pos + 1 : 0] = 'right';
+				this.move[pos - 1 >= 0 ? pos - 1 : num - 1] = 'left';
 				this.move = this.move.concat()
 				this.startRoll();
 			},
-			deleteInter:function(){
+			deleteInter: function() {
 				clearInterval(this.dingshiqi);
 			},
-			addInter:function(){
+			addInter: function() {
 				this.startRoll();
 			}
 		}
@@ -144,17 +152,18 @@
 		position: absolute;
 		list-style: none;
 		bottom: 0px;
-		transition: transform .5s, scale 1s, left .5s, right .5s,z-index .3s,background-color.1s;
+		transition: transform .5s, scale 1s, left .5s, right .5s, z-index .3s, background-color.1s;
 	}
 	/*.image:after,*/
-	.control em:after{
+	
+	.control em:after {
 		content: "";
 		position: absolute;
-		top:0;
-		bottom:5px;
-		left:0;
-		right:0;
-		background-color: rgba(0,0,0,.3);
+		top: 0;
+		bottom: 5px;
+		left: 0;
+		right: 0;
+		background-color: rgba(0, 0, 0, .3);
 		z-index: 101;
 	}
 	
@@ -168,11 +177,12 @@
 		transform: scaleY(1.05);
 		left: 15%;
 		z-index: 100;
-		
 	}
-	li.center:after{
-		background-color: rgba(0,0,0,0)!important;
+	
+	li.center:after {
+		background-color: rgba(0, 0, 0, 0)!important;
 	}
+	
 	li.right {
 		left: 30%;
 		z-index: 10;
@@ -185,7 +195,7 @@
 	}
 	
 	.button {
-		background-color: rgba(0,0,0,0)!important;
+		background-color: rgba(0, 0, 0, 0)!important;
 		text-align: center;
 		width: 100%;
 		height: 5px;
@@ -202,9 +212,11 @@
 		margin: 0 2px;
 		cursor: pointer;
 	}
-	em.center{
-	    background-color: red;
-	 }
+	
+	em.center {
+		background-color: red;
+	}
+	
 	.control em:first-child,
 	.control em:last-child {
 		position: absolute;
@@ -215,9 +227,11 @@
 		z-index: 100;
 		cursor: pointer;
 	}
-	.control:hover ::after{
-		background-color: rgba(0,0,0,0);
+	
+	.control:hover ::after {
+		background-color: rgba(0, 0, 0, 0);
 	}
+	
 	.control em:first-child {
 		left: 0px;
 		background-image: url('../assets/img/pre.png');
@@ -227,26 +241,29 @@
 		right: 0px;
 		background-image: url('../assets/img/next.png');
 	}
-	.control{
-		width:100%;
-		height:30px;
-		top:calc(50% - 20px);
+	
+	.control {
+		width: 100%;
+		height: 30px;
+		top: calc(50% - 20px);
 		display: none;
-		left:0;
+		left: 0;
 	}
-	.slider:hover .control{
+	
+	.slider:hover .control {
 		display: inline-block;
 	}
-	.tag{
+	
+	.tag {
 		display: inline-block;
-		padding:5px;
-		background-color: rgba(198,47,47);
-		position:absolute;
-		right:0px;
-		bottom:15px;
+		padding: 5px;
+		background-color: green;
+		position: absolute;
+		right: 0px;
+		bottom: 15px;
 		border-top-left-radius: 10px;
-		font-size:.5rem;
+		font-size: .5rem;
 		border-bottom-left-radius: 10px;
-		color:white;
+		color: white;
 	}
 </style>

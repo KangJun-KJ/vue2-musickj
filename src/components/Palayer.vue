@@ -192,7 +192,7 @@
 			currentIndex() {
 				var that = this;
 				that.$store.commit('addHistoryList');
-				getRecommend("/newapi/music/url?id=" + this.currentSong().id).then(function(json) {
+				getRecommend("/music/url?id=" + this.currentSong().id).then(function(json) {
 					that.audioInfo.src = json.data[0].url;
 				}, function(error) {
 					console.error('出错了', error);
@@ -241,6 +241,7 @@
 		margin-top: 13px;
 		margin-left: 20px;
 		margin-right: 10px;
+		box-sizing: border-box;
 	}
 	
 	.voice {
@@ -250,7 +251,7 @@
 		height: 55px;
 		margin-top: 13px;
 		margin-left: 20px;
-
+		box-sizing: border-box;
 	}
 	.playMode{
 		display: inline-block;

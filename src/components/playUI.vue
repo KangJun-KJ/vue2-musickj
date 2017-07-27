@@ -39,8 +39,8 @@
 					</div>
 				</div>
 				
-				<div class='suoxiaoBtn'>
-					<svg class="icon " aria-hidden="true" @click="closeFullScreen">
+				<div class='suoxiaoBtn' @click="closeFullScreen">
+					<svg class="icon " aria-hidden="true" >
 						<use xlink:href="#icon-zuixiaohua"></use>
 					</svg>
 				</div>
@@ -113,7 +113,7 @@
 		watch:{
 			currentIndex(){
 				var that=this;
-				getRecommend("/api/song/lyric?os=pc&id="+this.currentSong().id+"&lv=-1&kv=-1&tv=-1" ).then(function(json) {
+				getRecommend("/lyric?id="+this.currentSong().id+"&lv=-1&kv=-1&tv=-1" ).then(function(json) {
 					that.showLyric(json.lrc.lyric||"没有歌词");
 				}, function(error) {
 					console.error('出错了', error);
