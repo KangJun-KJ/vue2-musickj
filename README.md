@@ -2,9 +2,12 @@
 
 > person practice
 
-# 制作原因
->自己正在学习vue2的相关知识，而且看到了一个已经有人做了这样一个demo [传送门](https://github.com/ShanaMaid/vue-163-music) 
-自己也参考不少这个demo的知识：如轮播图、网易云API的接口等
+# 灵感来源
+>[https://github.com/ShanaMaid/vue-163-music](https://github.com/ShanaMaid/vue-163-music) 
+
+# 接口调用
+
+>[https://github.com/Binaryify/NeteaseCloudMusicApi](https://github.com/Binaryify/NeteaseCloudMusicApi) 
 
 ## Build Setup
 
