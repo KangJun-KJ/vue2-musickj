@@ -41,7 +41,7 @@
 						theme: "发现音乐"
 					},
 					{
-						to: '/personFM',
+						to: '/FM',
 						icon: '#icon-fm',
 						theme: "私人FM"
 					},

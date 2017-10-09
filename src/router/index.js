@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import FoundMusic from './../components/foundMusic'
-import PersonFM from './../components/personFM'
+import PersonFM from './../components/personFM/personFM'
 import Mv from './../components/mv'
 import Friend from './../components/friend'
 import ListDetail from './../components/listDetail'
@@ -37,7 +37,7 @@ export default new Router({
       ]
     },
     {
-      path: '/personFM',
+      path: '/FM',
       name: 'personFM',
       component: PersonFM	
     },

@@ -35,7 +35,6 @@
 							</div>
 							
 						</div>
-						
 					</div>
 				</div>
 				
@@ -53,7 +52,7 @@
 	import { mapState, mapMutations, mapGetters, mapAction } from 'vuex'
 	import { getRecommend } from './../api/recommend.js'
 	import '../assets/js/iconfont.js'
-	import {addClass,removeClass} from '../common/dom.js'
+	import {addClass,removeClass,HasKey} from '../common/dom.js'
 	export default {
 		data() {
 			return {
@@ -114,7 +113,12 @@
 			currentIndex(){
 				var that=this;
 				getRecommend("/lyric?id="+this.currentSong().id+"&lv=-1&kv=-1&tv=-1" ).then(function(json) {
-					that.showLyric(json.lrc.lyric||"没有歌词");
+					if(HasKey(json.lrc,'lyric')){
+						that.showLyric(json.lrc.lyric);
+					}else{
+						that.showLyric("获取不到歌词");
+					}
+					
 				}, function(error) {
 					console.error('出错了', error);
 				});

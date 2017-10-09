@@ -23,3 +23,11 @@ export function removeClass(el,className){
 	}
 	el.className=newClass.join(' ');
 }
+export function HasKey(ob,key){
+	for(var x in ob){
+		if(x==key){
+			return true;
+		}
+	}
+	return false;
+}

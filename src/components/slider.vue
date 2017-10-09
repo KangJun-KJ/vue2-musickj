@@ -1,6 +1,6 @@
 <template>
 	<ul class='slider' :style='styleObject' @mouseover="deleteInter" @mouseout="addInter">
-		<li v-for="(item,index) in image" class='image' :class="[move[index]]">
+		<li v-for="(item,index) in image" class='' :class="['image',[move[index]]]">
 			<template v-if="typeof item === 'object'">
 				<img :src="item.src" :style="imgStyle" @click="target(index)" />
 				<span :class="{tag:item.tagName}" :style="item.tagStyle">{{item.tagName}}</span>
@@ -60,7 +60,7 @@
 			return {
 				image: {
 					default: function() {
-						return [{}]
+						return [require('../assets/img/1.jpg')]
 					}
 				},
 				move: ['left', 'center', 'right']

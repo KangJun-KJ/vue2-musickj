@@ -10,6 +10,7 @@ const state = {
 	playlist: [],
 	/* 列表歌单*/
 	sequenceList: [],
+	IsFMPlay:false,
 	/*播放列表 表示歌单的播放模式的顺序 */
 	mode: 0,
 	/*0顺序播放 1随机播放 2随机播放*/
@@ -54,6 +55,9 @@ const mutations = {
 	},
 	setCurrentIndex(state, index) {
 		state.currentIndex = index;
+	},
+	setFMFlag(state,flag){
+		state.IsFMPlay=flag;
 	},
 	changeCurrIndex(state, index) {
 		state.currentIndex += index;
